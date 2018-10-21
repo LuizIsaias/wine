@@ -2,27 +2,47 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="baseprojectDataSet">
+    <DataSource Name="bDS">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>934bdc3e-e756-4cd1-aebe-2ceb24843791</rd:DataSourceID>
+      <rd:DataSourceID>7d117c7c-c0c0-4fc2-84e2-715c5e7f6e66</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DataSet_Rel_Produto">
+    <DataSet Name="ProdutoDS">
       <Query>
-        <DataSourceName>baseprojectDataSet</DataSourceName>
+        <DataSourceName>bDS</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="Id">
+          <DataField>Id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="Nome">
           <DataField>Nome</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Descricao">
+          <DataField>Descricao</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Uva">
+          <DataField>Uva</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Classe">
+          <DataField>Classe</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Teor_Alcolico">
           <DataField>Teor_Alcolico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CustoUnitario">
@@ -33,14 +53,34 @@
           <DataField>Quantidade</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="PrecoVenda">
+          <DataField>PrecoVenda</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DataValidade">
+          <DataField>DataValidade</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="PaisId">
+          <DataField>PaisId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SafraId">
+          <DataField>SafraId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="Volume">
           <DataField>Volume</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>baseprojectDataSet</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\Felipe\Documents\winetech-master\Admin\baseprojectDataSet.xsd</rd:SchemaPath>
+        <rd:DataSetName>bDS</rd:DataSetName>
+        <rd:SchemaPath>C:\Users\Felipe\Documents\winetech-master\Admin\bDS.xsd</rd:SchemaPath>
         <rd:TableName>Produto</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -56,37 +96,43 @@
             <ChartCategoryHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Group Name="ChartGroup" />
-                  <Label />
+                  <Group Name="Chart1_CategoryGroup">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Nome.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Nome.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <Label>=Fields!Nome.Value</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartCategoryHierarchy>
             <ChartSeriesHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Label>Nome</Label>
+                  <Label>Quantidade</Label>
                 </ChartMember>
                 <ChartMember>
-                  <Label>Teor Alcolico</Label>
+                  <Label>Preco Venda</Label>
                 </ChartMember>
                 <ChartMember>
                   <Label>Custo Unitario</Label>
                 </ChartMember>
                 <ChartMember>
-                  <Label>Quantidade</Label>
-                </ChartMember>
-                <ChartMember>
-                  <Label>Volume</Label>
+                  <Label>Teor Alcolico</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartSeriesHierarchy>
             <ChartData>
               <ChartSeriesCollection>
-                <ChartSeries Name="Nome">
+                <ChartSeries Name="Quantidade">
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=Count(Fields!Nome.Value)</Y>
+                        <Y>=Sum(Fields!Quantidade.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
                         <Style />
@@ -115,11 +161,11 @@
                     <MinMovingDistance>0pt</MinMovingDistance>
                   </ChartSmartLabel>
                 </ChartSeries>
-                <ChartSeries Name="Teor_Alcolico">
+                <ChartSeries Name="PrecoVenda">
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=Count(Fields!Teor_Alcolico.Value)</Y>
+                        <Y>=Sum(Fields!PrecoVenda.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
                         <Style />
@@ -181,44 +227,11 @@
                     <MinMovingDistance>0pt</MinMovingDistance>
                   </ChartSmartLabel>
                 </ChartSeries>
-                <ChartSeries Name="Quantidade">
+                <ChartSeries Name="Teor_Alcolico">
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=Sum(Fields!Quantidade.Value)</Y>
-                      </ChartDataPointValues>
-                      <ChartDataLabel>
-                        <Style />
-                      </ChartDataLabel>
-                      <Style />
-                      <ChartMarker>
-                        <Style />
-                      </ChartMarker>
-                      <DataElementOutput>Output</DataElementOutput>
-                    </ChartDataPoint>
-                  </ChartDataPoints>
-                  <Style />
-                  <ChartEmptyPoints>
-                    <Style />
-                    <ChartMarker>
-                      <Style />
-                    </ChartMarker>
-                    <ChartDataLabel>
-                      <Style />
-                    </ChartDataLabel>
-                  </ChartEmptyPoints>
-                  <ValueAxisName>Primary</ValueAxisName>
-                  <CategoryAxisName>Primary</CategoryAxisName>
-                  <ChartSmartLabel>
-                    <CalloutLineColor>Black</CalloutLineColor>
-                    <MinMovingDistance>0pt</MinMovingDistance>
-                  </ChartSmartLabel>
-                </ChartSeries>
-                <ChartSeries Name="Volume">
-                  <ChartDataPoints>
-                    <ChartDataPoint>
-                      <ChartDataPointValues>
-                        <Y>=Count(Fields!Volume.Value)</Y>
+                        <Y>=Count(Fields!Teor_Alcolico.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
                         <Style />
@@ -502,7 +515,7 @@
             </ChartLegends>
             <ChartTitles>
               <ChartTitle Name="Default">
-                <Caption>Produto</Caption>
+                <Caption>Título do Gráfico</Caption>
                 <Style>
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <FontSize>9pt</FontSize>
@@ -531,11 +544,11 @@
                 <VerticalAlign>Top</VerticalAlign>
               </Style>
             </ChartNoDataMessage>
-            <DataSetName>DataSet_Rel_Produto</DataSetName>
-            <Top>0.36724cm</Top>
-            <Left>1.08162cm</Left>
-            <Height>7.09021cm</Height>
-            <Width>14.93479cm</Width>
+            <DataSetName>ProdutoDS</DataSetName>
+            <Top>1.08162cm</Top>
+            <Left>2.13995cm</Left>
+            <Height>7.38125cm</Height>
+            <Width>11.60104cm</Width>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
